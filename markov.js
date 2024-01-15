@@ -18,17 +18,18 @@ class MarkovMachine {
 
   makeChains() {
     // TODO
-    let chains = {};
-    for (let i = 0; i < this.words.length -1; i++){
-      let currentWord = this.words[i];
-      let nextWord = this.words[i + 1];
-
-      if(!chains[currentWord]){
-        chains[currentWord] = [];
-      }
-      chains[currentWord].push(nextWord);
+    let chains = new Map();
+    for (let i = 0; i < this.words.length; i++){
+      let word = word[i];
+      let nextWord = word[i] + 1 || null;
+      if(chains.has(word)) chains.get(word).push(nextWord);
+      else chains.set(word,[nextWord]);
     }
-    return chains;
+    this.chains = chains;
+  }
+
+  static choice(array){
+    return array[Math.floor(Math.random() * array.length)];
   }
 
 
@@ -36,29 +37,21 @@ class MarkovMachine {
 
   makeText(numWords = 100) {
     // TODO
+    let keys = Array.from(this.chains.keys());
+    let key = this.choice(keys);
+    let out = [];
 
-    let startIndex = Math.floor(Math.random() + this.words.length);
-    let currentWord = this.words[startIndex];
-    let result = [currentWord];
-
-    for (let i = 0; i < this.words.length -1; i++){
-      if(this.chains[currentWord]){
-        let nextWords = this.chains[currentWord];
-
-        let nextIndex = Math.floor(Math.random() * nextWord.length);
-        let nextWord = nextWords(nextIndex);
-          
-          result.push(nextWord)
-        nextWord = currentWord;
-      } else {
-        break;
-      }
-
+    white(out.length <= numWords && key != null){
+      let [w1, w2] = key.split(" ");
+      out.push(w1);
+      key = w2 + " " + this.choice(this.chains.get(key));
     }
-    return result.join('') 
+
+    return out.join(" ");
   }
-  
 }
+
+
 
 
 module.exports = {

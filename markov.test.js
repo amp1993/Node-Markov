@@ -34,7 +34,7 @@ describe('MarkovMachine', () => {
   test('makeText method generates random text', () => {
     const text = 'The cat in the hat.';
     const markovMachine = new MarkovMachine(text);
-    const generatedText = markovMachine.makeText(5); // Adjust the numWords parameter as needed
+    const generatedText = markovMachine.makeText(5); 
     expect(generatedText.split(' ')).toHaveLength(5);
   });
 });
